@@ -8,9 +8,9 @@ use std::collections::BTreeMap;
 pub struct Manifest {
     pub project: Project,
     #[serde(default)]
-    pub components: BTreeMap<IdentifierPathBuf, NamespaceOrComponent>,
+    pub components: BTreeMap<IdentifierPathBuf, NamespaceOrOther>,
     #[serde(default)]
-    pub concepts: BTreeMap<Identifier, Concept>,
+    pub concepts: BTreeMap<IdentifierPathBuf, NamespaceOrOther>,
 }
 impl Manifest {
     pub fn project_path(&self) -> IdentifierPathBuf {
@@ -31,9 +31,10 @@ pub struct Project {
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(untagged)]
-pub enum NamespaceOrComponent {
-    Component(Component),
+pub enum NamespaceOrOther {
     Namespace(Namespace),
+    Component(Component),
+    Concept(Concept),
 }
 
 #[derive(Deserialize, Debug, Clone)]
